@@ -1,0 +1,833 @@
+/*C++ Graphics Code on TWO - PLAYER CHESS GAME
+Made By Advait Kale - J020
+MBATech EXTC F.Y.
+*/
+
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include<windows.h>
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+
+class Chess
+{
+
+    char name[20];
+    char ri;
+    char rf;
+    int ci;
+    int cf;
+
+public:
+
+    void progress()//For progress Bar
+    {
+        setcolor(WHITE);
+        int midx=(getmaxx()/2)-50;
+        int midy=(getmaxy()/2)-200;
+        settextstyle(4,HORIZ_DIR,3);
+        outtextxy(midx-100,midy-40,(char*)"LOADING...");
+        rectangle(midx-100,midy,midx+151,midy+30);
+        setcolor(GREEN);
+        for (int i=0;i<250;i++)
+              {
+            line(midx-99+i,midy+1,midx-99+i,midy+29);
+            delay(2);
+              }
+        cleardevice();
+    }
+
+    void setrci(int x,int y)
+    {
+        if(x>=100&&x<=158)
+        {
+            ci=1;
+        }
+        else if(x>=158&&x<=216)
+        {
+            ci=2;
+        }
+        else if(x>=216&&x<=274)
+        {
+            ci=3;
+        }
+        else if(x>=274&&x<=332)
+        {
+            ci=4;
+        }
+        else if(x>=332&&x<=390)
+        {
+            ci=5;
+        }
+        else if(x>=390&&x<=448)
+        {
+            ci=6;
+        }
+        else if(x>=448&&x<=506)
+        {
+            ci=7;
+        }
+        else if(x>=506&&x<=565)
+        {
+            ci=8;
+        }
+
+
+        if(y>=100&&y<=158)
+        {
+            ri='A';
+        }
+        else if(y>=158&&y<=216)
+        {
+            ri='B';
+        }
+        else if(y>=216&&y<=274)
+        {
+            ri='C';
+        }
+        else if(y>=274&&y<=332)
+        {
+            ri='D';
+        }
+        else if(y>=332&&y<=390)
+        {
+            ri='E';
+        }
+        else if(y>=390&&y<=448)
+        {
+            ri='F';
+        }
+        else if(y>=448&&y<=506)
+        {
+            ri='G';
+        }
+        else if(y>=506&&y<=565)
+        {
+            ri='H';
+        }
+    }
+
+    void setrcf(int x,int y)
+    {
+        if(x>=100&&x<=158)
+        {
+            cf=1;
+        }
+        else if(x>=158&&x<=216)
+        {
+            cf=2;
+        }
+        else if(x>=216&&x<=274)
+        {
+            cf=3;
+        }
+        else if(x>=274&&x<=332)
+        {
+            cf=4;
+        }
+        else if(x>=332&&x<=390)
+        {
+            cf=5;
+        }
+        else if(x>=390&&x<=448)
+        {
+            cf=6;
+        }
+        else if(x>=448 && x<=506)
+        {
+            cf=7;
+        }
+        else if(x>=506&&x<=565)
+        {
+            cf=8;
+        }
+
+
+        if(y>=100&&y<=158)
+        {
+            rf='A';
+        }
+        else if(y>=158&&y<=216)
+        {
+            rf='B';
+        }
+        else if(y>=216&&y<=274)
+        {
+            rf='C';
+        }
+        else if(y>=274&&y<=332)
+        {
+            rf='D';
+        }
+        else if(y>=332&&y<=390)
+        {
+            rf='E';
+        }
+        else if(y>=390&&y<=448)
+        {
+            rf='F';
+        }
+        else if(y>=448&&y<=506)
+        {
+            rf='G';
+        }
+        else if(y>=506&&y<=565)
+        {
+            rf='H';
+        }
+    }
+    void Title_window()//Title page of the game
+    {
+        readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\back_image.jpg",0,0,1100,1100);
+        settextstyle(4,HORIZ_DIR,5);
+        setcolor(RED);
+        outtextxy(300,200,(char*)"CHESS GAME");
+        settextstyle(8,HORIZ_DIR,3);
+        setcolor(GREEN);
+        outtextxy(70,550,(char*)"- Created By Advait P. Kale - J020");
+        settextstyle(3,HORIZ_DIR,1);
+        setcolor(RED);
+        outtextxy(400,400,(char*)"PRESS ANY KEY TO PROCEED");
+        getch();
+        cleardevice();
+    }
+
+    void names()
+    {
+        restorecrtmode();
+        gets(name);
+    }
+
+    void rules()//To print the rules of the game
+    {
+        settextstyle(8,HORIZ_DIR,5);
+        setcolor(RED);
+        outtextxy(10,30,(char*)"RULES OF THE CHESS GAME");
+        settextstyle(3,HORIZ_DIR,3);
+        setcolor(WHITE);
+        outtextxy(5,60,(char*)" ");
+        outtextxy(5,80,(char*)"-> Chess is a game, played by two players.");
+        outtextxy(5,110,(char*)"-> One player plays with the white pieces, and the other player plays with the black pieces.");
+        outtextxy(5,140,(char*)"-> The Game comprises of pieces which are the KING,QUEEN,BISHOP,ROOK,PAWN and KNIGHT.");
+        outtextxy(5,170,(char*)"-> The ROOK moves in a straight line, horizontally or vertically.");
+        outtextxy(5,200,(char*)"-> The BISHOP moves in a straight diagonal line.");
+        outtextxy(5,230,(char*)"-> The QUEEN may move in any straight line, horizontal, vertical, or diagonal.");
+        outtextxy(5,260,(char*)"-> The KNIGHT moves one and a half steps.");
+        outtextxy(5,290,(char*)"-> The PAWN moves straight vertically forward and kills diagonally.");
+        outtextxy(5,320,(char*)"-> The KING moves one square in any direction.");
+        outtextxy(5,350,(char*)"-> A player can kill a piece of the opponent by moving one of his own pieces to the square containing opposition's piece.");
+        outtextxy(5,380,(char*)"-> When the king of a player can be taken by a piece of the opponent, one says that the king is in check.");
+        outtextxy(5,410,(char*)"-> When a player's king is in check, and he cannot make a move to clear the check, then he is checkmated.");
+        outtextxy(5,440,(char*)"-> When a player cannot make any legal move, but his king is not in check, then the game is stalemated.");
+        settextstyle(4,HORIZ_DIR,3);
+        outtextxy(30,490,(char*)" Enter 'e' to exit and 'n' to start new game");
+        settextstyle(6,HORIZ_DIR,3);
+        outtextxy(200,560,(char*)"PRESS ANY KEY TO START GAMEPLAY");
+        getch();
+        cleardevice();
+
+    }
+
+    void setup_board(Chess p,Chess s)//set coordinates
+    {
+
+        settextstyle(8,HORIZ_DIR,4);
+        outtextxy(250,580,(char*)p.name);
+        outtextxy(250,65,(char*)s.name);
+            int c=100;
+            setcolor(11);
+        for(int j=100;j<=565;j++)
+            {
+
+                line(c,100,c,565);
+                c+=58;
+                if(c>565)
+                  break;
+
+            }
+        c=100;
+
+        for(int j=100;j<=565;j++)
+            {
+
+                line(100,c,565,c);
+                c+=58;
+                if(c>565)
+                  break;
+
+            }
+
+
+        for(int i=100;i<=507;i+=58)
+        {
+            readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_pawn.jpg",i+7,170,i+47,210);
+            //red=4
+            setcolor(WHITE);
+            setfillstyle(SOLID_FILL,RED);
+            circle(i+27,195,4);
+            floodfill(i+27,195,WHITE);
+            readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_pawn.jpg",i+7,460,i+47,500);
+            //blue=1
+            setcolor(BLACK);
+            setfillstyle(SOLID_FILL,BLUE);
+
+            circle(i+27,485,4);
+            floodfill(i+27,485,BLACK);
+        }
+        for(int j=100;j<=507;j+=58)
+        {
+
+            if(j==100||j==506){
+            readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_rook.jpg",j+7,110,j+47,150);
+            setcolor(WHITE);
+            setfillstyle(SOLID_FILL,GREEN);
+            circle(j+27,133,4);
+            floodfill(j+27,130,WHITE);}
+          //green=2
+            if(j==158||j==448){
+                readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_knight.jpg",j+7,110,j+47,150);
+               setcolor(WHITE);
+            setfillstyle(SOLID_FILL,CYAN);
+            circle(j+27,133,4);
+            floodfill(j+27,130,WHITE);} //cyan=3
+            if(j==216||j==390){
+                readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_bishop.jpg",j+7,110,j+47,150);
+               setcolor(WHITE);
+            setfillstyle(SOLID_FILL,MAGENTA);
+            circle(j+27,133,4);
+            floodfill(j+27,130,WHITE);} //magneta=5
+            if(j==274)
+            {
+                readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_queen.jpg",j+7,110,j+47,150);
+                setcolor(WHITE);
+                setfillstyle(SOLID_FILL,BROWN);
+                circle(j+27,133,4);
+                floodfill(j+27,130,WHITE);
+            }//brown=6
+            if(j==332)
+            {
+                readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_king.jpg",j+7,110,j+47,150);
+                setcolor(WHITE);
+                setfillstyle(SOLID_FILL,LIGHTGRAY);
+                circle(j+27,133,4);
+                floodfill(j+27,130,WHITE);
+            }
+        }
+        for(int j=100;j<=507;j+=58)
+        {
+            if(j==100||j==506)
+            {
+            readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_rook.jpg",j+7,522,j+47,562);
+            setcolor(BLACK);
+            setfillstyle(SOLID_FILL,LIGHTMAGENTA);
+            circle(j+27,542,4);
+            floodfill(j+27,542,BLACK);
+            }//light magneta=13
+            if(j==158||j==448)
+            {
+            readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_knight.jpg",j+7,522,j+47,562);
+            setcolor(BLACK);
+            setfillstyle(SOLID_FILL,LIGHTRED);
+            circle(j+27,542,4);
+            floodfill(j+27,542,BLACK);
+            } //light red=12
+            if(j==216||j==390)
+            {
+            readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_bishop.jpg",j+7,522,j+47,562);
+            setcolor(BLACK);
+            setfillstyle(SOLID_FILL,LIGHTGREEN);
+            circle(j+27,542,4);
+            floodfill(j+27,542,BLACK);}//light green=10
+            if(j==274){
+                readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_queen.jpg",j+7,522,j+47,562);
+               setcolor(BLACK);
+            setfillstyle(SOLID_FILL,LIGHTBLUE);
+            circle(j+27,542,4);
+            floodfill(j+27,542,BLACK);} //light blue=9
+            if(j==332){
+                readimagefile("C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_king.jpg",j+7,522,j+47,562);
+              setcolor(BLACK);
+            setfillstyle(SOLID_FILL,14);
+            circle(j+27,542,4);
+            floodfill(j+27,542,BLACK); }//yellow=14
+        }
+
+
+    }
+      int guessPiece(int k)
+   {
+
+ if(k==1)
+ {
+     return 0;
+ }
+ else if(k==2)
+ {
+     return 1;
+ }
+ else if(k==3)
+ {
+     return 2;
+ }
+ else if(k==4)
+ {
+     return 3;
+ }
+ else if(k==5)
+ {
+     return 4;
+ }
+ else if(k==6)
+ {
+     return 5;
+ }
+ else if(k==7)
+ {
+     return 6;
+ }
+ else if(k==9)
+ {
+     return 7;
+ }
+ else if(k==10)
+ {
+     return 8;
+ }
+ else if(k==12)
+ {
+     return 9;
+ }
+ else if(k==13)
+ {
+     return 10;
+ }
+ else if(k==14)
+ {
+     return 11;
+ }
+else
+{
+    return -1;
+}
+
+   }
+
+   void storeMove(int ri,int rf,int ci,int cf,int h)
+   {
+       ofstream fout;
+       fout.open("Moves.txt",ios::out|ios::app);
+       fout<<ri<<"@"<<rf<<"@"<<ci<<"@"<<cf<<"@"<<h<<endl;
+       fout.close();
+   }
+
+   void readMove(int ri,int rf,int ci,int cf,int h)
+   {
+       string s=to_string(ri)+"@"+to_string(rf)+"@"+to_string(ci)+"@"+to_string(cf)+"@"+to_string(h);
+      const char *f=s.c_str();
+       ifstream fin;
+       fin.open("Moves.txt",ios::in);
+        const char* m;
+        char*t;
+       while(fin)
+       {
+           fin.getline(t,sizeof(f));
+           strcpy(t,m);
+           if(strcmp(f,m)==0)
+           {
+               restorecrtmode();
+               cout<<"Move played was from ... "<<endl<<endl;
+               cout<<"Row : "<<(char)ri<<" to "<<(char)rf;
+               cout<<"Column : "<<ci<<" to "<<cf;
+           }
+       }
+   }
+   void createTxtFile()
+   {
+       fstream f;
+       f.open("Moves.txt",ios::in|ios::out|ios::trunc);
+       f.close();
+   }
+   bool isValidKill(int ri,int rf,int ci,int cf,int h)
+   {
+       return false;
+   }
+   bool isValidMove(int ri,int rf,int ci,int cf,int h)
+   {
+       if(h==1)// w pawn
+       {
+           if(ri=='G'&&ri-rf==2&&ci==cf&&ri>rf)
+           {
+               return true;
+           }
+           else if(ri-rf==1&&ri>rf&&ci==cf)
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+       }
+       else if(h==4)// b pawn
+       {
+           if(ri=='B'&&rf-ri==2&&ci==cf&&rf>ri)
+           {
+               return true;
+           }
+           else if(rf-ri==1&&rf>ri&&ci==cf)
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+       }
+       else if(h==2)//b rook
+       {
+           if((ci==cf&&ri!=rf)||(ri==rf&&ci!=cf))
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+       }
+       else if(h==13)// w rook
+        {
+            if((ci==cf&&ri!=rf)||(ri==rf&&ci!=cf))
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+        }
+        else if(h==3)//b knight
+        {
+            if((abs(rf-ri)==2&&abs(cf-ci)==1)||(abs(cf-ci)==2&&abs(rf-ri)==1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(h==12)//w knight
+        {
+            if((abs(ri-rf)==2&&abs(ci-cf)==1)||(abs(ci-cf)==2&&abs(ri-rf)==1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(h==5)//b bishop
+        {
+            if(abs(ri-rf)==abs(ci-cf))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(h==10)//w bishop
+        {
+            if(abs(ri-rf)==abs(ci-cf))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(h==7)// b king
+        {
+            if(abs(rf-ri)==1||abs(cf-ci)==1||(abs(rf-ri)==1&&abs(cf-ci)==1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(h==14)// w king
+        {
+            if(abs(ri-rf)==1||abs(ci-cf)==1||(abs(ri-rf)==1&&abs(ci-cf)==1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(h==6||h==9)// b queen and w queen
+        {
+            if((ci==cf&&rf!=ri)||(ri==rf&&ci!=cf)||(abs(cf-ci)==abs(rf-ri)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+   }
+
+   void playMove_White()
+   {
+string arr[]={"C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_pawn.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_rook.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_knight.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_pawn.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_bishop.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_queen.jpg" ,
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_king.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_queen.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_bishop.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_knight.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_rook.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_king.jpg"
+};
+int chance=0;
+system("wscript hello_White.vbs");
+p:
+while(chance==0){
+       int xi,yi,xf,yf,i,j;
+       while(!ismouseclick(WM_LBUTTONDOWN))
+       {
+
+       }
+getmouseclick(WM_LBUTTONDOWN,xi,yi);
+setrci(xi,yi);
+int p=getpixel(xi,yi);
+if(p==2||p==3||p==4||p==5||p==6||p==7)
+                {
+                    system("wscript incorrect_side.vbs");
+                    chance=0;
+                    goto p;
+                }
+while(!ismouseclick(WM_LBUTTONDOWN))
+       {
+
+       }
+getmouseclick(WM_LBUTTONDOWN,xf,yf);
+
+setrcf(xf,yf);
+ int t=guessPiece(p);
+if(isValidMove(ri,rf,ci,cf,p)==true ||isValidKill(ri,rf,ci,cf,p)==true)
+{
+    storeMove(ri,rf,ci,cf,p);
+    setfillstyle(SOLID_FILL,BLACK);
+    for( i=100;i<=507;i+=58)
+    {
+       for( j=100;j<=507;j+=58)
+        {
+            if(((xf>=i&&xf<=i+58)&&(yf>=j&&yf<=j+58))&&!((xi>i&&xi<(i+58))&&(yi>j&&yi<(j+58))))
+            {
+
+                 if((p==1||p==10||p==12||p==13||p==14||p==9||p==15))
+                {
+                    chance=1;
+                    readimagefile(arr[t].c_str(),i+7,j+7,i+47,j+47);
+                     setfillstyle(SOLID_FILL,p);
+                   setcolor(0);
+                   circle(i+27,j+29,4);
+                    floodfill(i+27,j+27,BLACK);
+                    setfillstyle(SOLID_FILL,BLACK);
+                    floodfill(xi,yi,11);
+                    goto g;
+                }
+
+
+            }
+      }
+    }
+
+
+}
+else
+{
+    chance=0;
+}
+
+}
+g:
+clearmouseclick(WM_LBUTTONDOWN);}
+
+
+void playMove_Black()
+   {
+string arr[]={"C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_pawn.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_rook.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_knight.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_pawn.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_bishop.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_queen.jpg" ,
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\Black_king.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_queen.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_bishop.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_knight.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_rook.jpg",
+              "C:\\Users\\Admin\\Desktop\\c++_advait\\Chesspiece\\White_king.jpg"
+};
+int chance=0;
+system("wscript hello_Black.vbs");
+df:
+while(chance==0){
+
+       int xi,yi,xf,yf,i,j;
+
+       while(!ismouseclick(WM_LBUTTONDOWN))
+       {
+
+       }
+getmouseclick(WM_LBUTTONDOWN,xi,yi);
+setrci(xi,yi);
+int p=getpixel(xi,yi);
+if(p==1||p==10||p==12||p==13||p==14||p==9)
+                {
+                    system("wscript incorrect_side.vbs");
+                    chance=0;
+                    goto df;
+                }
+while(!ismouseclick(WM_LBUTTONDOWN))
+       {
+
+       }
+getmouseclick(WM_LBUTTONDOWN,xf,yf);
+setrcf(xf,yf);
+ int t=guessPiece(p);
+
+if(isValidMove(ri,rf,ci,cf,p)==true||isValidKill(ri,rf,ci,cf,p)==true)
+{
+    storeMove(ri,rf,ci,cf,p);
+    setfillstyle(SOLID_FILL,BLACK);
+    for( i=100;i<=507;i+=58)
+    {
+       for( j=100;j<=507;j+=58)
+        {
+            if(((xf>=i&&xf<=i+58)&&(yf>=j&&yf<=j+58))&&!((xi>i&&xi<(i+58))&&(yi>j&&yi<(j+58))))
+            {
+                 if(p==2||p==3||p==4||p==5||p==6||p==7||p==0)
+                {
+
+                    chance=1;
+                    readimagefile(arr[t].c_str(),i+7,j+7,i+47,j+47);
+                      setfillstyle(SOLID_FILL,p);
+                    setcolor(15);
+                     circle(i+27,j+29,4);
+                    floodfill(i+27,j+27,15);
+                    setfillstyle(SOLID_FILL,BLACK);
+                    floodfill(xi,yi,11);
+                      goto g;
+
+                }
+
+
+            }
+
+else
+{
+     chance=0;
+}
+
+
+      }
+    }
+
+
+}
+g:
+clearmouseclick(WM_LBUTTONDOWN);
+}
+}
+    };
+int main()
+{
+system("COLOR f0");
+initwindow(1100,1100);
+Chess p1,p2,o1;
+o1.Title_window();
+o1.progress();
+o1.rules();
+o1.progress();
+setcolor(WHITE);
+settextstyle(4,HORIZ_DIR,3);
+outtextxy(30,200,(char*)"Enter the NAME of PLAYER 1: ");
+p1.names();
+outtextxy(30,290,(char*)"Enter the NAME of PLAYER 2: ");
+p2.names();
+cleardevice();
+initwindow(700,700,"Chess Game...");
+o1.setup_board(p1,p2);
+
+x:
+
+char ch='g';
+while(ch!='e'||ch!='n'){
+
+p1.playMove_White();
+
+delay(1000);
+
+ch=getch();
+
+if(ch=='e'){
+   o1.createTxtFile();
+break;
+}
+else if(ch=='n'){
+        o1.createTxtFile();
+    break;
+}
+p2.playMove_Black();
+
+delay(1000);
+
+ch=getch();
+
+if(ch=='e'){
+   o1.createTxtFile();
+    break;}
+else if(ch=='n'){
+    o1.createTxtFile();
+    break;}
+}
+if(ch=='n')
+{
+    cleardevice();
+    o1.setup_board(p1,p2);
+    goto x;
+}
+else if(ch=='e')
+{
+    cleardevice();
+    setcolor(GREEN);
+    settextstyle(4,HORIZ_DIR,4);
+    outtextxy(10,350,(char*)"THANK YOU FOR PLAYING....");
+    Beep(400,3000);
+    exit(1);
+}
+    return 0;
+}
+
+
